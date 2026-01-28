@@ -121,35 +121,35 @@ if st.button("📡 Send Data to Server"):
         st.balloons()
 
 
-        # -------- FUN ADMIN PASSWORD HINT (STEP BY STEP) --------
+       # -------- FUN ADMIN PASSWORD HINT (STEP BY STEP) --------
         st.markdown("---")
         st.subheader("🕵️ Fun Admin Password Hint")
         
-        # Initialize session states
+        # Initialize session state variables
         if "q_index" not in st.session_state:
             st.session_state.q_index = 0
         
-        if "answered_correctly" not in st.session_state:
-            st.session_state.answered_correctly = False
+        if "show_next" not in st.session_state:
+            st.session_state.show_next = False
         
         # Questions (Password = 53663)
         questions = [
-            ("🧠 Digit 1: Number of vowels in the word **EDUCATION**?", "5"),
+            ("🧠 Digit 1: Number of vowels in the word EDUCATION?", "5"),
             ("📐 Digit 2: Number of sides in a triangle?", "3"),
-            ("🔤 Digit 3: How many letters are in the word **PYTHON**?", "6"),
+            ("🔤 Digit 3: How many letters are in the word PYTHON?", "6"),
             ("📅 Digit 4: How many months have 31 days?", "6"),
             ("🎨 Digit 5: Number of primary colors in RGB model?", "3")
         ]
         
-        # All questions completed
+        # 🎉 All questions completed
         if st.session_state.q_index == len(questions):
             st.success("🎉 All questions answered correctly!")
             st.balloons()
             st.info("🔐 Admin Password Unlocked: **53663**")
         
         else:
+            # Show ONLY current question
             question, correct_answer = questions[st.session_state.q_index]
-        
             st.info(question)
         
             user_ans = st.text_input(
@@ -160,18 +160,19 @@ if st.button("📡 Send Data to Server"):
             # SUBMIT BUTTON
             if st.button("✅ Submit Answer"):
                 if user_ans.strip() == correct_answer:
-                    st.success("✔ Correct answer!")
-                    st.session_state.answered_correctly = True
+                    st.success("✔ Correct! Click Next Question 👉")
+                    st.session_state.show_next = True
                 else:
                     st.error("❌ Wrong answer 🤡 Try again!")
-                    st.session_state.answered_correctly = False
+                    st.session_state.show_next = False
         
-            # NEXT BUTTON (appears ONLY after correct answer)
-            if st.session_state.answered_correctly:
+            # NEXT QUESTION BUTTON (ONLY after correct answer)
+            if st.session_state.show_next:
                 if st.button("➡️ Next Question"):
                     st.session_state.q_index += 1
-                    st.session_state.answered_correctly = False
+                    st.session_state.show_next = False
                     st.rerun()
+
         
 
 # ---------------- ADMIN PANEL ----------------
