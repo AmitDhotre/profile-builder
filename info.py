@@ -178,6 +178,27 @@ if password == ADMIN_PASSWORD:
         ax.set_ylabel("Count")
         st.pyplot(fig)
 
+# ❌ WRONG PASSWORD → FUNNY QUOTE
+elif password != "":
+    st.error("❌ Access Denied")
+
+    funny_quotes = [
+        "Ladleeeeeeeeeeeeeeee!",
+        "Meowwwwwwww 🐱",
+        "Ghopppp, Ghopppp, Ghopppp 😂"
+    ]
+
+    st.markdown(
+        f"""
+        <div style="text-align: center; font-size: 28px; font-weight: bold;">
+            {random.choice(funny_quotes)}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+
 # ---------------- FOOTER ----------------
 st.markdown("---")
 st.caption("🔒 Admin-protected system | Personal Info + Age | CSV backend")
