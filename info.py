@@ -120,11 +120,53 @@ if st.button("📡 Send Data to Server"):
         st.success("✅ Your details have been saved successfully!")
         st.balloons()
 
+
+                # -------- FUN ADMIN PASSWORD HINT GAME --------
+        st.markdown("---")
+        st.subheader("🕵️ Fun Admin Password Hint")
+        
+        # Initialize progress
+        if "step" not in st.session_state:
+            st.session_state.step = 0
+        
+        questions = [
+            ("🔢 Digit 1: How many fingers are there on ONE hand?", "5"),
+            ("🔢 Digit 2: How many sides does a triangle have?", "3"),
+            ("🔢 Digit 3: How many letters are in the word 'BANANA'?", "6"),
+            ("🔢 Digit 4: How many months have 31 days?", "6"),
+            ("🔢 Digit 5: How many primary colors are there?", "3")
+        ]
+        
+        # If all digits guessed
+        if st.session_state.step == len(questions):
+            st.success("🎉 Congratulations! You unlocked the full Admin Password 🎉")
+            st.balloons()
+            st.info("🔐 Password: **53663** (Admins Only 😎)")
+        
+        else:
+            question, correct_answer = questions[st.session_state.step]
+        
+            st.info(question)
+            user_answer = st.text_input(
+                "✍️ Your Answer",
+                key=f"answer_{st.session_state.step}"
+            )
+        
+            if st.button("✅ Submit Answer"):
+                if user_answer.strip() == correct_answer:
+                    st.success("🎯 Correct! Next digit unlocked 🔓")
+                    st.session_state.step += 1
+                    st.rerun()
+                else:
+                    st.error("❌ Wrong Answer 🤡 Try again!")
+        
+
 # ---------------- ADMIN PANEL ----------------
 st.markdown("---")
-st.header("🔐 Admin Panel")
+st.header("🕵️ Secret Zone")
 
-password = st.text_input("Enter Admin Password", type="password")
+password = st.text_input("😈 Prove You're team Member", type="password")
+login_btn = st.button("🔓 Enter")
 
 if password == ADMIN_PASSWORD:
     st.success("✅ Admin Access Granted")
