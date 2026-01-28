@@ -189,14 +189,15 @@ elif password != "":
         "Ghopppp, Ghopppp, Ghopppp 😂"
     ]
 
-    st.markdown(
-        f"""
-        <div style="text-align: center; font-size: 28px; font-weight: bold; margin: 10px;">
-            {quote}
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    for quote in funny_quotes:
+        st.markdown(
+            f"""
+            <div style="text-align: center; font-size: 28px; font-weight: bold; margin: 10px;">
+                {quote}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
 
 
