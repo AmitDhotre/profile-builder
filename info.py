@@ -8,11 +8,11 @@ import os
 # ---------------- CONFIG ----------------
 st.set_page_config(page_title="ProfileBuilder 404 😅", page_icon="🧾", layout="centered")
 
-ADMIN_PASSWORD = "admin123"
+ADMIN_PASSWORD = "jenne"
 CSV_FILE = "personal_records.csv"
 
-st.title("User Info Manager 📋")
-st.caption("Not a Dating App 😜, Bas Information Hai 😄")
+st.title("Fill Carefully… No Extra Sheets 😂")
+st.caption("😄 Chill karo, system pe bharosa rakho")
 
 # ---------------- LOAD / CREATE CSV ----------------
 if os.path.exists(CSV_FILE):
@@ -52,7 +52,7 @@ dob = st.date_input(
 )
 
 # ---------------- CALCULATE & SAVE ----------------
-if st.button("🎯 Calculate & Save"):
+if st.button("📡 Send Data to Server"):
     if name.strip() == "" or not mobile.isdigit() or len(mobile) != 10:
         st.error("❌ Please enter valid Name and 10-digit Mobile number")
     else:
@@ -135,35 +135,37 @@ if password == ADMIN_PASSWORD:
 
     # -------- EDIT USER DATA --------
     st.markdown("---")
-    st.subheader("✏️ Edit User Record")
-
-    edit_id = st.number_input("Enter User ID to Edit", min_value=1, step=1)
-
-    if edit_id in data["ID"].values:
-        record = data[data["ID"] == edit_id].iloc[0]
-
-        new_name = st.text_input("Edit Name", record["Name"])
-        new_mobile = st.text_input("Edit Mobile", str(record["Mobile"]))
-        new_insta = st.text_input("Edit Instagram ID", record["Instagram_ID"])
-        new_snap = st.text_input("Edit Snapchat ID", record["Snapchat_ID"])
-        new_gender = st.selectbox("Edit Gender", ["Male", "Female", "Other"], index=0)
-        new_city = st.text_input("Edit City", record["City"])
-        new_dob = st.date_input("Edit DOB", pd.to_datetime(record["DOB"]))
-
-        if st.button("💾 Update Record"):
-            new_age = relativedelta(date.today(), new_dob).years
-
-            data.loc[data["ID"] == edit_id, [
-                "Name", "Mobile", "Instagram_ID", "Snapchat_ID",
-                "Gender", "City", "DOB", "Age"
-            ]] = [
-                new_name, new_mobile, new_insta, new_snap,
-                new_gender, new_city, new_dob, new_age
-            ]
-
+    st.subheader("🗑️ Remove User (Delete Record)")
+    
+    delete_id = st.number_input(
+        "Enter User ID to Remove",
+        min_value=1,
+        step=1
+    )
+    
+    if delete_id in data["ID"].values:
+        record = data[data["ID"] == delete_id].iloc[0]
+    
+        st.warning("⚠️ You are about to permanently delete this user:")
+        st.write({
+            "Name": record["Name"],
+            "Mobile": record["Mobile"],
+            "Instagram_ID": record["Instagram_ID"],
+            "Snapchat_ID": record["Snapchat_ID"],
+            "Gender": record["Gender"],
+            "City": record["City"],
+            "DOB": record["DOB"]
+        })
+    
+        if st.button("❌ Confirm Delete User"):
+            data = data[data["ID"] != delete_id]
             data.to_csv(CSV_FILE, index=False)
-            st.success("✅ Record updated successfully")
-            st.experimental_rerun()
+    
+            st.success("✅ User removed successfully")
+            st.rerun()
+    else:
+        st.info("ℹ️ Enter a valid User ID to remove")
+
 
     # -------- ANALYTICS DASHBOARD --------
     st.markdown("---")
