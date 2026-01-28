@@ -191,8 +191,8 @@ elif password != "":
 
     st.markdown(
         f"""
-        <div style="text-align: center; font-size: 28px; font-weight: bold;">
-            {random.choice(funny_quotes)}
+        <div style="text-align: center; font-size: 28px; font-weight: bold; margin: 10px;">
+            {quote}
         </div>
         """,
         unsafe_allow_html=True
