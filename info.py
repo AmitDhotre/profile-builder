@@ -4,6 +4,7 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 import matplotlib.pyplot as plt
 import os
+import random
 
 # ---------------- CONFIG ----------------
 st.set_page_config(page_title="ProfileBuilder 404 😅", page_icon="🧾", layout="centered")
