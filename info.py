@@ -121,44 +121,57 @@ if st.button("📡 Send Data to Server"):
         st.balloons()
 
 
-                # -------- FUN ADMIN PASSWORD HINT GAME --------
+        # -------- FUN ADMIN PASSWORD HINT (STEP BY STEP) --------
         st.markdown("---")
         st.subheader("🕵️ Fun Admin Password Hint")
         
-        # Initialize progress
-        if "step" not in st.session_state:
-            st.session_state.step = 0
+        # Initialize session states
+        if "q_index" not in st.session_state:
+            st.session_state.q_index = 0
         
+        if "answered_correctly" not in st.session_state:
+            st.session_state.answered_correctly = False
+        
+        # Questions (Password = 53663)
         questions = [
-            ("🔢 Digit 1: How many fingers are there on ONE hand?", "5"),
-            ("🔢 Digit 2: How many sides does a triangle have?", "3"),
-            ("🔢 Digit 3: How many letters are in the word 'BANANA'?", "6"),
-            ("🔢 Digit 4: How many months have 31 days?", "6"),
-            ("🔢 Digit 5: How many primary colors are there?", "3")
+            ("🧠 Digit 1: Number of vowels in the word **EDUCATION**?", "5"),
+            ("📐 Digit 2: Number of sides in a triangle?", "3"),
+            ("🔤 Digit 3: How many letters are in the word **PYTHON**?", "6"),
+            ("📅 Digit 4: How many months have 31 days?", "6"),
+            ("🎨 Digit 5: Number of primary colors in RGB model?", "3")
         ]
         
-        # If all digits guessed
-        if st.session_state.step == len(questions):
-            st.success("🎉 Congratulations! You unlocked the full Admin Password 🎉")
+        # All questions completed
+        if st.session_state.q_index == len(questions):
+            st.success("🎉 All questions answered correctly!")
             st.balloons()
-            st.info("🔐 Password: **53663** (Admins Only 😎)")
+            st.info("🔐 Admin Password Unlocked: **53663**")
         
         else:
-            question, correct_answer = questions[st.session_state.step]
+            question, correct_answer = questions[st.session_state.q_index]
         
             st.info(question)
-            user_answer = st.text_input(
+        
+            user_ans = st.text_input(
                 "✍️ Your Answer",
-                key=f"answer_{st.session_state.step}"
+                key=f"answer_{st.session_state.q_index}"
             )
         
+            # SUBMIT BUTTON
             if st.button("✅ Submit Answer"):
-                if user_answer.strip() == correct_answer:
-                    st.success("🎯 Correct! Next digit unlocked 🔓")
-                    st.session_state.step += 1
-                    st.rerun()
+                if user_ans.strip() == correct_answer:
+                    st.success("✔ Correct answer!")
+                    st.session_state.answered_correctly = True
                 else:
-                    st.error("❌ Wrong Answer 🤡 Try again!")
+                    st.error("❌ Wrong answer 🤡 Try again!")
+                    st.session_state.answered_correctly = False
+        
+            # NEXT BUTTON (appears ONLY after correct answer)
+            if st.session_state.answered_correctly:
+                if st.button("➡️ Next Question"):
+                    st.session_state.q_index += 1
+                    st.session_state.answered_correctly = False
+                    st.rerun()
         
 
 # ---------------- ADMIN PANEL ----------------
