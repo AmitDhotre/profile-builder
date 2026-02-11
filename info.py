@@ -32,7 +32,7 @@ if st.session_state.step == 1:
 
     if st.button("🚀 Enter Website"):
         st.session_state.step = 2
-        st.experimental_rerun()
+        st.rerun()
 
 # ================= STEP 2 =================
 elif st.session_state.step == 2:
