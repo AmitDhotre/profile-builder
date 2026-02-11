@@ -47,14 +47,14 @@ else:
 if st.session_state.step == "home":
     st.markdown('<div class="fade-in">', unsafe_allow_html=True)
 
-    st.title("Fill Carefully… No Extra Sheets 😂")
-    st.caption("😄 Chill karo, system pe bharosa rakho")
+    st.title("CAMPUS FORM 🏦")
+    st.caption("Crafted with care by AJ 🗿")
 
-    if st.button("🚀 Enter Website"):
+    if st.button("Start Application"):
         st.session_state.step = "rules"
         st.rerun()
 
-    if st.button("🔐 Admin Login"):
+    if st.button("Restricted Area ☠"):
         st.session_state.step = "admin_login"
         st.rerun()
 
@@ -66,18 +66,18 @@ if st.session_state.step == "home":
 elif st.session_state.step == "rules":
     st.markdown('<div class="fade-in">', unsafe_allow_html=True)
 
-    st.header("📜 Website Rules & Regulations")
+    st.header("📜 A Few Things to Know")
     st.markdown("""
     1. 👤 Enter correct information  
     2. 📞 Valid mobile number required  
     3. ❌ Fake entries will be deleted  
-    4. 🔒 Demo / learning purpose only  
-    5. 🛑 Admin has full control  
+    4. 🔑 If you know the password, you may access the information ahead 
+    5. 🛑 Interested? Then go ahead and fill in your details, No Pressure  
     """)
 
-    agree = st.checkbox("✅ I agree to all rules")
+    agree = st.checkbox("ദ്ദി(ᵔᗜᵔ) I have read and agree to the rules")
 
-    if agree and st.button("➡️ Continue"):
+    if agree and st.button("⏩ CONTINUE"):
         st.session_state.step = "form"
         st.rerun()
 
@@ -89,7 +89,7 @@ elif st.session_state.step == "rules":
 elif st.session_state.step == "form":
     st.markdown('<div class="fade-in">', unsafe_allow_html=True)
 
-    st.header("📝 Enter Your Details")
+    st.header("📝 Time for your mini introduction ")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -97,11 +97,38 @@ elif st.session_state.step == "form":
     with col2:
         mobile = st.text_input("📞 Mobile (10 digits)")
 
+    st.subheader("📱 Social Media Check 😄")
+    
+    platform = st.radio(
+        "So… where do you actually hang out online? 🤔",
+        ["📸 Instagram", "👻 Snapchat", "😎 Both", "🙈 None (I’m mysterious)"]
+    )
+    
     col3, col4 = st.columns(2)
-    with col3:
-        insta_id = st.text_input("📸 Instagram ID")
-    with col4:
-        snap_id = st.text_input("👻 Snapchat ID")
+    
+    insta_id = ""
+    snap_id = ""
+    
+    if platform == "📸 Instagram":
+        with col3:
+            insta_id = st.text_input("📸 Instagram ID", placeholder="username_here")
+        st.caption("😄 Insta it is! Reels gang spotted.")
+    
+    elif platform == "👻 Snapchat":
+        with col4:
+            snap_id = st.text_input("👻 Snapchat ID", placeholder="snap_username")
+        st.caption("👻 Snap life! Streaks must continue 🔥")
+    
+    elif platform == "😎 Both":
+        with col3:
+            insta_id = st.text_input("📸 Instagram ID", placeholder="insta_username")
+        with col4:
+            snap_id = st.text_input("👻 Snapchat ID", placeholder="snap_username")
+        st.caption("😎 Double apps, double fun!")
+    
+    elif platform == "🙈 None (I’m mysterious)":
+        st.caption("🕵️ Respect. Mystery level unlocked 😄")
+
 
     gender = st.selectbox("🚻 Gender", ["Male", "Female", "Other"])
     city = st.text_input("🏙️ City")
