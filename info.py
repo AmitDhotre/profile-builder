@@ -55,21 +55,19 @@ dob = st.date_input(
 if st.button("📡 Send Data to Server"):
     if name.strip() == "" or not mobile.isdigit() or len(mobile) != 10:
         st.error("❌ Please enter valid Name and 10-digit Mobile number")
+    elif mobile in data["Mobile"].astype(str).values:
+        st.error("❌ This mobile number already exists!")
     else:
         today = date.today()
         age_full = relativedelta(today, dob)
 
         years = age_full.years
-        months = age_full.months
-        days = age_full.days
 
-        # Next birthday
         next_bday = dob.replace(year=today.year)
         if next_bday < today:
             next_bday = next_bday.replace(year=today.year + 1)
         days_left = (next_bday - today).days
 
-        # Age group
         if years < 13:
             group = "🧒 Child"
         elif years < 20:
@@ -79,7 +77,6 @@ if st.button("📡 Send Data to Server"):
         else:
             group = "👴 Senior"
 
-        # Save to CSV
         new_id = 1 if data.empty else int(data["ID"].max()) + 1
         new_row = {
             "ID": new_id,
@@ -89,21 +86,14 @@ if st.button("📡 Send Data to Server"):
             "Snapchat_ID": snap_id,
             "Gender": gender,
             "City": city,
-            "DOB": dob,
+            "DOB": dob.strftime("%Y-%m-%d"),
             "Age": years
         }
+
         data = pd.concat([data, pd.DataFrame([new_row])], ignore_index=True)
         data.to_csv(CSV_FILE, index=False)
 
-        # -------- INTERACTIVE OUTPUT --------
-        st.markdown("---")
         st.success("💾 Data stored successfully!")
-        st.info(
-            "🤓 Details received successfully!\n\n"
-            "Relax, this information is safer than your exam answers 😜"
-        )
-
-
         st.info(
             f"""
             **👤 Name:** {name}  
@@ -116,114 +106,39 @@ if st.button("📡 Send Data to Server"):
             **🎈 Days left for next birthday:** **{days_left} days**
             """
         )
-
-        st.success("✅ Your details have been saved successfully!")
         st.balloons()
-
-
-       # -------- FUN ADMIN PASSWORD HINT (STEP BY STEP) --------
-        st.markdown("---")
-        st.subheader("🕵️ Fun Admin Password Hint")
-        
-        # Initialize session state variables
-        if "q_index" not in st.session_state:
-            st.session_state.q_index = 0
-        
-        if "show_next" not in st.session_state:
-            st.session_state.show_next = False
-        
-        # Questions (Password = 53663)
-        questions = [
-            ("🧠 Digit 1: Number of vowels in the word EDUCATION?", "5"),
-            ("📐 Digit 2: Number of sides in a triangle?", "3"),
-            ("🔤 Digit 3: How many letters are in the word PYTHON?", "6"),
-            ("📅 Digit 4: How many months have 31 days?", "6"),
-            ("🎨 Digit 5: Number of primary colors in RGB model?", "3")
-        ]
-        
-        # 🎉 All questions completed
-        if st.session_state.q_index == len(questions):
-            st.success("🎉 All questions answered correctly!")
-            st.balloons()
-            st.info("🔐 Admin Password Unlocked: **53663**")
-        
-        else:
-            # Show ONLY current question
-            question, correct_answer = questions[st.session_state.q_index]
-            st.info(question)
-        
-            user_ans = st.text_input(
-                "✍️ Your Answer",
-                key=f"answer_{st.session_state.q_index}"
-            )
-        
-            # SUBMIT BUTTON
-            if st.button("✅ Submit Answer"):
-                if user_ans.strip() == correct_answer:
-                    st.success("✔ Correct! Click Next Question 👉")
-                    st.session_state.show_next = True
-                else:
-                    st.error("❌ Wrong answer 🤡 Try again!")
-                    st.session_state.show_next = False
-        
-            # NEXT QUESTION BUTTON (ONLY after correct answer)
-            if st.session_state.show_next:
-                if st.button("➡️ Next Question"):
-                    st.session_state.q_index += 1
-                    st.session_state.show_next = False
-                    st.rerun()
-
-        
 
 # ---------------- ADMIN PANEL ----------------
 st.markdown("---")
 st.header("🕵️ Secret Zone")
 
 password = st.text_input("😈 Prove You're team Member", type="password")
-login_btn = st.button("🔓 Enter")
 
 if password == ADMIN_PASSWORD:
     st.success("✅ Admin Access Granted")
 
-    # -------- STORED RECORDS --------
     st.subheader("📊 Stored Records")
     st.dataframe(data, use_container_width=True)
 
-    # -------- EDIT USER DATA --------
     st.markdown("---")
-    st.subheader("🗑️ Remove User (Delete Record)")
-    
-    delete_id = st.number_input(
-        "Enter User ID to Remove",
-        min_value=1,
-        step=1
-    )
-    
+    st.subheader("🗑️ Remove User")
+
+    delete_id = st.number_input("Enter User ID to Remove", min_value=1, step=1)
+
     if delete_id in data["ID"].values:
         record = data[data["ID"] == delete_id].iloc[0]
-    
-        st.warning("⚠️ You are about to permanently delete this user:")
-        st.write({
-            "Name": record["Name"],
-            "Mobile": record["Mobile"],
-            "Instagram_ID": record["Instagram_ID"],
-            "Snapchat_ID": record["Snapchat_ID"],
-            "Gender": record["Gender"],
-            "City": record["City"],
-            "DOB": record["DOB"]
-        })
-    
-        if st.button("❌ Confirm Delete User"):
+
+        st.warning("⚠️ You are about to delete:")
+        st.write(record)
+
+        if st.button("❌ Confirm Delete"):
             data = data[data["ID"] != delete_id]
             data.to_csv(CSV_FILE, index=False)
-    
             st.success("✅ User removed successfully")
-            st.rerun()
+            st.experimental_rerun()
     else:
-        st.info("ℹ️ Enter a valid User ID to remove")
+        st.info("ℹ️ Enter valid User ID")
 
-
-    # -------- ANALYTICS DASHBOARD --------
     st.markdown("---")
     st.subheader("📈 Analytics Dashboard")
 
@@ -234,28 +149,9 @@ if password == ADMIN_PASSWORD:
         ax.set_ylabel("Count")
         st.pyplot(fig)
 
-# ❌ WRONG PASSWORD → FUNNY QUOTE
 elif password != "":
     st.error("Nice Try 😜")
 
-    funny_quotes = [
-        "Ladleeeeeeeeeeeeeeee!",
-        "Meowwwwwwww 🐱",
-        "Ghopppp, Ghopppp, Ghopppp 😂"
-    ]
-
-    for quote in funny_quotes:
-        st.markdown(
-            f"""
-            <div style="text-align: center; font-size: 28px; font-weight: bold; margin: 10px;">
-                {quote}
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-
-
 # ---------------- FOOTER ----------------
 st.markdown("---")
-st.caption("🔒 Admin-protected system | Personal Info + Age | CSV backend")
+st.caption("🔒 Admin-protected system | CSV backend | Streamlit App")
