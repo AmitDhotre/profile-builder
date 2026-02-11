@@ -130,49 +130,54 @@ elif st.session_state.step == "form":
     
     elif platform == "🙈 None (I’m mysterious)":
         st.caption("So… where do you spend most of your screen time? 😜 ")
-
+    
+    if insta_id and insta_id.strip():
+    
+        st.markdown("### 🎉 Extra Fun Section 😄")
+    
+        fun_col1, fun_col2 = st.columns(2)
+    
+        # 🎬 Movie Type
+        with fun_col1:
+            movie_type = st.selectbox(
+                "🎬 Favorite Movie Type",
+                ["Action 💥", "Comedy 😂", "Romantic ❤️", "Horror 😱", "Sci-Fi 🚀"]
+            )
+    
+            movie_msg = {
+                "Action 💥": "🔥 Full power! Hero entry guaranteed 😎",
+                "Comedy 😂": "😂 Stress-free life unlocked!",
+                "Romantic ❤️": "❤️ Emotions running high 😉",
+                "Horror 😱": "😱 Brave choice! Lights ON please 😜",
+                "Sci-Fi 🚀": "🚀 Big brain energy 🤯"
+            }
+            st.caption(movie_msg[movie_type])
+    
+        # 👯 Best Friend
+        with fun_col2:
+            best_friend = st.text_input("👯 Best Friend Name")
+    
+            if best_friend.strip():
+                st.caption(f"🤝 {best_friend} = permanent support system 😄")
+    
+        # 💍 Engagement Status (full width)
+        engaged = st.radio(
+            "💍 Relationship Status (no judgement 😜)",
+            ["😅 Single", "❤️ Engaged", "🤫 It’s complicated"]
+        )
+    
+        if engaged == "😅 Single":
+            st.caption("😎 Single = peace + freedom!")
+        elif engaged == "❤️ Engaged":
+            st.caption("💖 Congratulations! Shaadi reels loading 😂")
+        else:
+            st.caption("🤫 Complicated… system respects privacy 😜")
 
     gender = st.selectbox("🚻 Gender", ["Male", "Female", "Other"])
     city = st.text_input("🏙️ City")
     dob = st.date_input("📅 Date of Birth", max_value=date.today())
 
-    # ---------- EXTRA FUN INFO (AFTER INSTAGRAM) ----------
-    if insta_id.strip() != "":
-        st.markdown("### 🎬 Just for Fun 😄")
-    
-        # 🎥 Movie Type
-        movie_type = st.selectbox(
-            "🎥 What kind of movies do you like?",
-            ["Action 💥", "Comedy 😂", "Romantic ❤️", "Horror 😱", "Sci-Fi 🚀"]
-        )
-    
-        movie_reaction = {
-            "Action 💥": "🔥 Full power! Slow movies not allowed 😎",
-            "Comedy 😂": "😂 Laughter is mandatory, stress is banned!",
-            "Romantic ❤️": "❤️ Ohooo… emotions unlocked 😉",
-            "Horror 😱": "😱 Brave soul! Lights ON only 😜",
-            "Sci-Fi 🚀": "🚀 Brainy choice! Multiverse approved 🤯"
-        }
-        st.caption(movie_reaction[movie_type])
-    
-        # 👯 Best Friend
-        best_friend = st.text_input("👯 Your best friend’s name")
-    
-        if best_friend.strip() != "":
-            st.caption(f"🤝 {best_friend} is officially certified as your partner-in-crime 😄")
-    
-        # 💍 Engagement Status
-        engaged = st.radio(
-            "💍 Relationship status (don’t panic 😜)",
-            ["😅 Single", "❤️ Engaged", "🤫 It’s complicated"]
-        )
-    
-        if engaged == "😅 Single":
-            st.caption("😎 Single = peaceful + extra freedom!")
-        elif engaged == "❤️ Engaged":
-            st.caption("💖 Congratulations! Wedding reels incoming 😂")
-        else:
-            st.caption("🤫 Complicated huh… system will not ask further questions 😜")
+
 
     if st.button("📡 Send Data"):
         if name == "" or not mobile.isdigit() or len(mobile) != 10:
