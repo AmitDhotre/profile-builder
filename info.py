@@ -179,7 +179,7 @@ elif st.session_state.step == "form":
 
 
 
-    if st.button("📡 Send Data"):
+    if st.button("🔐 Lock It & Send"):
         if name == "" or not mobile.isdigit() or len(mobile) != 10:
             st.error("❌ Invalid details")
         elif mobile in data["Mobile"].astype(str).values:
@@ -205,14 +205,16 @@ elif st.session_state.step == "form":
 elif st.session_state.step == "success":
     st.markdown('<div class="fade-in">', unsafe_allow_html=True)
 
-    st.success("💾 Data saved successfully!")
+    st.markdown("## 🎊 DATA SAVED!!! 🎊")
+    st.success("Relax 😎 the system didn’t crash this time 😂")
+    # st.success("💾 Data saved successfully!")
     st.balloons()
 
-    if st.button("➕ Add Another User"):
+    if st.button("👯 Add Another Friend")::
         st.session_state.step = "form"
         st.rerun()
 
-    if st.button("🏠 Go Home"):
+    if st.button("🚪 Take Me Home"):
         st.session_state.step = "home"
         st.rerun()
 
@@ -224,17 +226,30 @@ elif st.session_state.step == "success":
 elif st.session_state.step == "admin_login":
     st.markdown('<div class="fade-in">', unsafe_allow_html=True)
 
-    st.header("🔐 Admin Login")
-    password = st.text_input("Enter Admin Password", type="password")
+    st.header("Restricted Area ☠")
+    password = st.text_input("🔐 Prove you’re the AJ 😎", type="password")
 
-    if st.button("🔓 Login"):
+    if st.button("😎 Trust Me, I’m AJ"):
         if password == ADMIN_PASSWORD:
             st.session_state.admin_logged_in = True
             st.session_state.step = "admin_panel"
             st.rerun()
-        else:
-            st.error("❌ Wrong Password")
-
+# ❌ WRONG PASSWORD → FUNNY QUOTE 
+        elif password != "": 
+            st.error("Nice Try AJ 😜")
+            
+            funny_quotes = [ 
+                "Ladleeeeeeeeeeeeeee 🥴", 
+                "Meowwwwwwww 🐱", 
+                "Ghopppp 😵‍💫, Ghopppp 🤪, Ghopppp 🥵"
+            ]
+            for quote in funny_quotes:
+                st.markdown(
+                    f""" <div style="text-align: center; font-size: 28px; font-weight: bold; margin: 10px;">
+                    {quote} 
+                    </div> """,
+                    unsafe_allow_html=True 
+                )
     if st.button("⬅ Back"):
         st.session_state.step = "home"
         st.rerun()
@@ -247,8 +262,9 @@ elif st.session_state.step == "admin_login":
 elif st.session_state.step == "admin_panel" and st.session_state.admin_logged_in:
     st.markdown('<div class="fade-in">', unsafe_allow_html=True)
 
-    st.success("✅ Admin Access Granted")
-    st.subheader("📊 Stored Records")
+    st.markdown("## 😎 Welcome, Boss!")
+    st.success("🔓 Secret access unlocked successfully")
+    st.subheader("📊 Behold… the sacred data 📂")
     st.dataframe(data, use_container_width=True)
 
     st.subheader("🗑️ Delete User")
@@ -267,7 +283,7 @@ elif st.session_state.step == "admin_panel" and st.session_state.admin_logged_in
         ax.hist(data["Age"], bins=10)
         st.pyplot(fig)
 
-    if st.button("🚪 Logout Admin"):
+    if st.button("Nikal La**e"):
         st.session_state.admin_logged_in = False
         st.session_state.step = "home"
         st.rerun()
@@ -276,4 +292,4 @@ elif st.session_state.step == "admin_panel" and st.session_state.admin_logged_in
 
 # ---------------- FOOTER ----------------
 st.markdown("---")
-st.caption("🔒 Admin-protected system | Separate Admin Page | Streamlit App")
+st.caption("🧠 SPPU brain | AJ code | 5E6N3 support ✌︎㋡ ")
