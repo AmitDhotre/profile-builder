@@ -127,12 +127,50 @@ elif st.session_state.step == "form":
         st.caption("😎 Double apps, double fun!")
     
     elif platform == "🙈 None (I’m mysterious)":
-        st.caption("🕵️ Respect. Mystery level unlocked 😄")
+        st.caption("So… where do you spend most of your screen time? 😜 ")
 
 
     gender = st.selectbox("🚻 Gender", ["Male", "Female", "Other"])
     city = st.text_input("🏙️ City")
     dob = st.date_input("📅 Date of Birth", max_value=date.today())
+
+    # ---------- EXTRA FUN INFO (AFTER INSTAGRAM) ----------
+if insta_id.strip() != "":
+    st.markdown("### 🎬 Just for Fun 😄")
+
+    # 🎥 Movie Type
+    movie_type = st.selectbox(
+        "🎥 What kind of movies do you like?",
+        ["Action 💥", "Comedy 😂", "Romantic ❤️", "Horror 😱", "Sci-Fi 🚀"]
+    )
+
+    movie_reaction = {
+        "Action 💥": "🔥 Full power! Slow movies not allowed 😎",
+        "Comedy 😂": "😂 Laughter is mandatory, stress is banned!",
+        "Romantic ❤️": "❤️ Ohooo… emotions unlocked 😉",
+        "Horror 😱": "😱 Brave soul! Lights ON only 😜",
+        "Sci-Fi 🚀": "🚀 Brainy choice! Multiverse approved 🤯"
+    }
+    st.caption(movie_reaction[movie_type])
+
+    # 👯 Best Friend
+    best_friend = st.text_input("👯 Your best friend’s name")
+
+    if best_friend.strip() != "":
+        st.caption(f"🤝 {best_friend} is officially certified as your partner-in-crime 😄")
+
+    # 💍 Engagement Status
+    engaged = st.radio(
+        "💍 Relationship status (don’t panic 😜)",
+        ["😅 Single", "❤️ Engaged", "🤫 It’s complicated"]
+    )
+
+    if engaged == "😅 Single":
+        st.caption("😎 Single = peaceful + extra freedom!")
+    elif engaged == "❤️ Engaged":
+        st.caption("💖 Congratulations! Wedding reels incoming 😂")
+    else:
+        st.caption("🤫 Complicated huh… system will not ask further questions 😜")
 
     if st.button("📡 Send Data"):
         if name == "" or not mobile.isdigit() or len(mobile) != 10:
