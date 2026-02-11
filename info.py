@@ -106,7 +106,7 @@ elif st.session_state.step == 3:
             data.to_csv(CSV_FILE, index=False)
 
             st.session_state.step = 4
-            st.experimental_rerun()
+            st.rerun()
 
 # ================= STEP 4 =================
 elif st.session_state.step == 4:
@@ -116,11 +116,11 @@ elif st.session_state.step == 4:
 
     if st.button("➕ Add Another User"):
         st.session_state.step = 3
-        st.experimental_rerun()
+        st.rerun()
 
     if st.button("🏠 Go to Home"):
         st.session_state.step = 1
-        st.experimental_rerun()
+        st.rerun()
 
 # ---------------- ADMIN PANEL ----------------
 st.markdown("---")
@@ -148,7 +148,7 @@ if password == ADMIN_PASSWORD:
             data = data[data["ID"] != delete_id]
             data.to_csv(CSV_FILE, index=False)
             st.success("✅ User removed successfully")
-            st.experimental_rerun()
+            st.rerun()
     else:
         st.info("ℹ️ Enter valid User ID")
 
@@ -164,7 +164,24 @@ if password == ADMIN_PASSWORD:
 
 elif password != "":
     st.error("Nice Try 😜")
-
+# ❌ WRONG PASSWORD → FUNNY QUOTE 
+elif password != "":
+    st.error("Nice Try 😜") 
+    
+    funny_quotes = [ 
+        "Ladleeeeeeeeeeeeeee 🥴", 
+        "Meowwwwwwww 🐱", 
+        "Ghopppp 😵‍💫, Ghopppp 🤪, Ghopppp 🥵"
+    ] 
+    for quote in funny_quotes:
+        st.markdown(
+            f"""
+            <div style="text-align: center; font-size: 28px; font-weight: bold; margin: 10px;"> 
+            {quote}
+            </div> 
+            """,
+            unsafe_allow_html=True 
+        )
 # ---------------- FOOTER ----------------
 st.markdown("---")
 st.caption("🔒 Admin-protected system | CSV backend | Streamlit App")
