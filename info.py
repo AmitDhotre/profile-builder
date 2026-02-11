@@ -210,7 +210,7 @@ elif st.session_state.step == "success":
     # st.success("💾 Data saved successfully!")
     st.balloons()
 
-    if st.button("👯 Add Another Friend")::
+    if st.button("👯 Add Another Friend"):
         st.session_state.step = "form"
         st.rerun()
 
