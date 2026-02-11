@@ -50,7 +50,7 @@ elif st.session_state.step == 2:
 
     if agree and st.button("➡️ Continue"):
         st.session_state.step = 3
-        st.experimental_rerun()
+        st.rerun()
 
 # ================= STEP 3 =================
 elif st.session_state.step == 3:
