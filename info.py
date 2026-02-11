@@ -52,11 +52,11 @@ if st.session_state.step == "home":
 
     if st.button("🚀 Enter Website"):
         st.session_state.step = "rules"
-        st.experimental_rerun()
+        st.rerun()
 
     if st.button("🔐 Admin Login"):
         st.session_state.step = "admin_login"
-        st.experimental_rerun()
+        st.rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -79,7 +79,7 @@ elif st.session_state.step == "rules":
 
     if agree and st.button("➡️ Continue"):
         st.session_state.step = "form"
-        st.experimental_rerun()
+        st.rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -123,7 +123,7 @@ elif st.session_state.step == "form":
             data.to_csv(CSV_FILE, index=False)
 
             st.session_state.step = "success"
-            st.experimental_rerun()
+            st.rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -138,11 +138,11 @@ elif st.session_state.step == "success":
 
     if st.button("➕ Add Another User"):
         st.session_state.step = "form"
-        st.experimental_rerun()
+        st.rerun()
 
     if st.button("🏠 Go Home"):
         st.session_state.step = "home"
-        st.experimental_rerun()
+        st.rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -159,13 +159,13 @@ elif st.session_state.step == "admin_login":
         if password == ADMIN_PASSWORD:
             st.session_state.admin_logged_in = True
             st.session_state.step = "admin_panel"
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("❌ Wrong Password")
 
     if st.button("⬅ Back"):
         st.session_state.step = "home"
-        st.experimental_rerun()
+        st.rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -187,7 +187,7 @@ elif st.session_state.step == "admin_panel" and st.session_state.admin_logged_in
             data = data[data["ID"] != delete_id]
             data.to_csv(CSV_FILE, index=False)
             st.success("User deleted")
-            st.experimental_rerun()
+            st.rerun()
 
     st.subheader("📈 Age Analytics")
     if not data.empty:
@@ -198,7 +198,7 @@ elif st.session_state.step == "admin_panel" and st.session_state.admin_logged_in
     if st.button("🚪 Logout Admin"):
         st.session_state.admin_logged_in = False
         st.session_state.step = "home"
-        st.experimental_rerun()
+        st.rerun()
 
     st.markdown('</div>', unsafe_allow_html=True)
 
