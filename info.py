@@ -97,6 +97,8 @@ elif st.session_state.step == "form":
     with col2:
         mobile = st.text_input("📞 Mobile (10 digits)")
 
+    insta_id = ""
+    snap_id = ""
     st.subheader("📱 Social Media Check 😄")
     
     platform = st.radio(
@@ -106,8 +108,8 @@ elif st.session_state.step == "form":
     
     col3, col4 = st.columns(2)
     
-    insta_id = ""
-    snap_id = ""
+    # insta_id = ""
+    # snap_id = ""
     
     if platform == "📸 Instagram":
         with col3:
