@@ -227,7 +227,7 @@ elif st.session_state.step == "admin_login":
     st.markdown('<div class="fade-in">', unsafe_allow_html=True)
 
     st.header("Restricted Area ☠")
-    password = st.text_input("🔐 Prove you’re the AJ 😎", type="password")
+    password = st.text_input("🔐 Enter the Password 🔑", type="password")
 
     if st.button("😎 Trust Me, I’m AJ"):
         if password == ADMIN_PASSWORD:
