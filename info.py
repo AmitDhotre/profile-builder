@@ -48,7 +48,7 @@ if st.session_state.step == "home":
     st.markdown('<div class="fade-in">', unsafe_allow_html=True)
 
     st.title("CAMPUS FORM 🏦")
-    st.caption("Crafted with care by AJ 🗿")
+    st.caption("Crafted with jhatu mahesh 🗿")
 
     if st.button("Start Application"):
         st.session_state.step = "rules"
